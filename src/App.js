@@ -6,7 +6,7 @@ import client from 'graphql/client';
 import AppRoutes from 'config/routes';
 import { PokemonContextProvider } from 'context/PokemonContext';
 import { PokemonImageContextProvider } from 'context/PokemonImageContext';
-import { Header } from 'components';
+import { Header, Loader } from 'components';
 
 const App = () => {
   console.log('client', client)
@@ -16,7 +16,7 @@ const App = () => {
         <ApolloProvider client={client}>
           <Router>
             <Header />
-            <Suspense fallback={<div>Loading ...</div>}>
+            <Suspense fallback={<div><Loader /></div>}>
               <Routes>
                 {AppRoutes.map((route) => (
                   <Route key={route.id} {...route} />
