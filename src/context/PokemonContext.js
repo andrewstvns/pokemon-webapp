@@ -17,7 +17,7 @@ function pokemonReducer(myPokemonList, action) {
 export const PokemonContextProvider = ({ children }) => {
   const [myPokemonList, dispatch] = useReducer(pokemonReducer, [], () => {
     const getLocalPokemon = localStorage.getItem('myPokemonList');
-    const init = getLocalPokemon === undefined ? [] : JSON.parse(getLocalPokemon);
+    const init = getLocalPokemon ? JSON.parse(getLocalPokemon) : [];
     return init
   });
 
