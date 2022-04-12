@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense } from 'react';
+import './index.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ApolloProvider } from '@apollo/client';
+import client from 'graphql/client';
+import AppRoutes from 'config/routes';
+import { PokemonContextProvider } from 'context/PokemonContext';
+import { PokemonImageContextProvider } from 'context/PokemonImageContext';
+import { Header } from 'components';
 
-function App() {
+const App = () => {
+  console.log('client', client)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <PokemonContextProvider>
+      <PokemonImageContextProvider>
+        <ApolloProvider client={client}>
+          <Router>
+            <Header />
+            <Suspense fallback={<div>Loading ...</div>}>
+              <Routes>
+                {AppRoutes.map((route) => (
+                  <Route key={route.id} {...route} />
+                ))}
+              </Routes>
+            </Suspense>
+          </Router>
+        </ApolloProvider>
+      </PokemonImageContextProvider>
+    </PokemonContextProvider>
+  )
+};
 
 export default App;
